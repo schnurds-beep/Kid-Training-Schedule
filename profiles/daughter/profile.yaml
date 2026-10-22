@@ -1,0 +1,29 @@
+# Placeholder until age/activities are known. `status: draft` means plan-week still
+# produces a chart (so she isn't left out) but prints a warning on every TBD field.
+id: daughter
+name: "<daughter's name>"
+age: null                     # TBD
+grade: null                   # TBD
+status: draft
+
+interests: []                 # TBD — fill in before generating any content
+
+constraints:
+  weekday:
+    block: { start: "18:45", end: "19:15" }   # same block as son; shorten if younger
+  budget_minutes: 20          # TBD — conservative default until age is known
+
+areas:
+  handwriting:
+    minutes: 5
+    mode: self
+    content_type: handwriting
+  reading:
+    minutes: 10
+    mode: parent
+    content_type: reading
+    notes: "TBD: read-aloud vs. passage+questions depends on age."
+  bedtime_reading:
+    minutes: 15
+    mode: self
+    outside_block: true

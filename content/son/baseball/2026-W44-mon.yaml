@@ -1,0 +1,23 @@
+# Drill plan sized to the slot. Weekend files use minutes: 40 and 3-4 blocks.
+id: son/baseball/2026-W44-mon
+kid: son
+type: baseball
+week: 2026-W44
+slot: mon-3
+generator: { name: baseball, version: "0.1.0", backend: stub }
+generated_at: 2026-10-25T20:15:00
+status: generated
+params:
+  difficulty_version: 1
+  minutes: 10
+  season: fall
+  variant: outdoor            # indoor in winter: tee into net, wall ball, soft toss
+  focus: throwing             # rotates hitting → throwing → fielding across the week's slots
+  levels: { hitting: 1, throwing: 1, fielding: 1 }
+blocks:
+  - { minutes: 2, name: "Arm circles + 10 easy catches", skill: throwing }
+  - { minutes: 6, name: "Target throws: 20 at a strike-zone tape box, count hits", skill: throwing, target: "12/20" }
+  - { minutes: 2, name: "5 grounders rolled, soft hands", skill: fielding }
+progression:
+  up:   "3 sessions >= target → move box back 5 ft (throwing level 2)"
+  down: "2 sessions < 8/20 → bigger box"

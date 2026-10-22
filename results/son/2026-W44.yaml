@@ -1,0 +1,46 @@
+# Parent-entered results, one file per kid per week. Written by `record`, or edit it directly:
+# the file is the source of truth, there is no separate database.
+# Missing item = not yet recorded. `done: false` = explicitly skipped. Nothing carries over.
+kid: son
+week: 2026-W44
+sessions:
+  - item: mon-1
+    area: handwriting
+    date: 2026-10-26
+    done: true
+  - item: mon-2
+    area: piano
+    date: 2026-10-26
+    done: true
+  - item: mon-3
+    area: baseball
+    date: 2026-10-26
+    done: true
+    content: baseball/2026-W44-mon
+    score: { correct: 11, total: 20 }      # drill target counts are optional
+    notes: "Rushing the throw; slowed down when counting out loud."
+
+  - item: tue-1
+    area: handwriting
+    date: 2026-10-27
+    done: true
+  - item: tue-2
+    area: cello
+    date: 2026-10-27
+    done: false                            # skipped; timer never started
+    notes: "Meltdown about the bow. Try the 3-step card next time."
+  - item: tue-3
+    area: reading
+    date: 2026-10-27
+    done: true
+    content: reading/2026-W44-tue
+    minutes: 12
+    score: { correct: 4, total: 6 }
+    missed: [3, 5]                         # question numbers; types resolve via the content file → [inference, inference]
+    notes: "Both misses were inference. Guessed fast; didn't go back to the text."
+    # `record` appended this after applying the adaptation rule:
+    adaptation:
+      area: reading
+      difficulty_version_before: 1
+      difficulty_version_after: 1          # 4/6 is between the thresholds → level unchanged
+      note: "inference missed 2x this session → counts as 1 session toward the weight rule"

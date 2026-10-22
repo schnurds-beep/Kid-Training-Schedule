@@ -1,0 +1,63 @@
+{#- Draft chart template. Context: kid (profile), plan (weekly plan), rows (ordered area rows) -#}
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>{{ kid.name }} — Week {{ plan.week }}</title>
+<style>
+  @page { size: letter landscape; margin: 0.5in; }
+  body { font-family: system-ui, sans-serif; font-size: 13pt; color: #111; }
+  h1 { font-size: 18pt; margin: 0 0 4pt; }
+  .sub { color: #555; font-size: 10pt; margin-bottom: 10pt; }
+  table { width: 100%; border-collapse: collapse; }
+  th, td { border: 1px solid #333; padding: 6pt 4pt; text-align: center; height: 34pt; }
+  th.area, td.area { text-align: left; width: 26%; }
+  th.day.free { background: #f3f3f3; }
+  .box { display: inline-block; width: 18pt; height: 18pt; border: 2px solid #111; border-radius: 3pt; }
+  .min { display: block; font-size: 8pt; color: #666; margin-top: 2pt; }
+  .note { font-size: 9pt; color: #444; }
+  tr.divider td { border: 0; height: 8pt; }
+  .foot { margin-top: 10pt; font-size: 9pt; color: #555; display: flex; justify-content: space-between; }
+</style>
+</head>
+<body>
+<h1>{{ kid.name }} — practice chart</h1>
+<div class="sub">Week {{ plan.week }} · {{ plan.starts }} to {{ plan.ends }} · done = the timer ran, that's it</div>
+
+<table>
+  <thead>
+    <tr>
+      <th class="area"></th>
+      {% for d in ["mon","tue","wed","thu","fri","sat","sun"] %}
+        <th class="day {{ plan.days[d].mode }}">{{ d|capitalize }}
+          {% if plan.days[d].mode == "free" %}<span class="min">free choice</span>{% endif %}
+        </th>
+      {% endfor %}
+    </tr>
+  </thead>
+  <tbody>
+    {% for row in rows %}
+      {% if row.outside_block and not loop.first %}<tr class="divider"><td colspan="8"></td></tr>{% endif %}
+      <tr>
+        <td class="area">{{ row.label or row.area|replace("_"," ")|capitalize }}
+          {% if row.minutes %}<span class="min">{{ row.minutes }} min</span>{% endif %}</td>
+        {% for d in ["mon","tue","wed","thu","fri","sat","sun"] %}
+          <td>
+            {% set item = row.items.get(d) %}
+            {% if item and item.external %}<span class="note">{{ item.label }}</span>
+            {% elif item %}<span class="box"></span>
+              {% if item.content_title %}<span class="min">{{ item.content_title }}</span>{% endif %}
+            {% endif %}
+          </td>
+        {% endfor %}
+      </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+<div class="foot">
+  <span>rotation v{{ plan.rotation_version }} · generated {{ plan.generated_at[:10] }}</span>
+  <span>notes for review: ____________________________________________</span>
+</div>
+</body>
+</html>

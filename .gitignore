@@ -1,0 +1,13 @@
+# Printables are regenerated from templates + content; keep the source, not the output.
+# (Decision pending: see docs/DECISIONS.md #4. Flip this if you want PDFs in the audit trail.)
+output/*
+!output/README.md
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+*.egg-info/
+
+# Local secrets (LLM API keys live here, never in-repo)
+.env

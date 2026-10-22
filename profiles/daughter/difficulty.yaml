@@ -1,0 +1,13 @@
+kid: daughter
+areas:
+  reading:
+    version: 1
+    level: { grade_equiv: null, passage_words: null, questions: 4 }   # TBD
+    question_mix: { main_idea: 1, detail: 1, inference: 1, vocab_in_context: 1 }
+    history:
+      - { version: 1, at: 2026-10-26, reason: "placeholder; set level once age/grade known" }
+  handwriting:
+    version: 1
+    level: { sentences: 1, focus: "letter formation" }
+    history:
+      - { version: 1, at: 2026-10-26, reason: "placeholder" }

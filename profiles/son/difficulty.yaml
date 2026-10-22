@@ -1,0 +1,45 @@
+# Explicit, versioned difficulty state per content type. Written by `record`
+# (via the generator's adapt() rule), readable and editable by hand.
+# `version` bumps on every change; `history` is append-only so the file itself is the audit trail,
+# and git gives you the diff.
+kid: son
+areas:
+  reading:
+    version: 1
+    level:
+      grade_equiv: 3.5          # step_size 1 in config == 0.5 grade here (generator decides the unit)
+      passage_words: 250
+      questions: 6
+    question_mix:               # relative weights; adaptation bumps a type that was missed twice
+      main_idea: 1
+      detail: 1
+      inference: 1
+      vocab_in_context: 1
+    history:
+      - { version: 1, at: 2026-10-26, reason: "initial: below grade on comprehension, start at 3.5" }
+
+  math:
+    version: 1
+    level:
+      track: fact_fluency
+      skill: "multiplication 6-9"
+      stage: 1                  # 1 = untimed sheet, 2 = 2-min timed, 3 = mixed with division
+    history:
+      - { version: 1, at: 2026-10-26, reason: "initial" }
+
+  handwriting:
+    version: 1
+    level:
+      sentences: 3
+      focus: "letter size and spacing"
+    history:
+      - { version: 1, at: 2026-10-26, reason: "initial" }
+
+  baseball:
+    version: 1
+    level:
+      hitting: 1
+      throwing: 1
+      fielding: 1               # each 1-5; `timed` adaptation rule in config applies per skill
+    history:
+      - { version: 1, at: 2026-10-26, reason: "initial" }

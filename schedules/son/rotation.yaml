@@ -1,0 +1,63 @@
+# Rotation rules → plan-week turns these into schedules/son/weeks/<week>.yaml.
+# Edit this after the 2-week review; bump `version` so plans record which rules made them.
+kid: son
+version: 1
+effective_from: 2026-10-26
+
+# Weekly template. Each entry = one chart row. `days` = where a checkbox appears.
+# The planner adds the anchor (handwriting) to every non-free day automatically.
+rows:
+  - area: handwriting
+    days: [mon, tue, wed, thu, sat, sun]
+    role: anchor
+
+  - area: piano
+    days: [mon, wed]
+  - area: piano
+    label: "Piano lesson"
+    days: [sat]
+    external: true            # shows on the chart, not counted in the budget
+
+  - area: cello
+    days: [tue, thu, sun]
+
+  - area: reading
+    days: [tue, thu]
+
+  - area: math
+    days: [sat]
+
+  - area: baseball
+    days: [mon, wed]
+  - area: baseball
+    label: "Baseball (long)"
+    days: [sat]
+    minutes: 40
+  - area: baseball
+    label: "Baseball (long)"
+    days: [sun]
+    minutes: 40
+    unless: skiing            # dropped when the week has `overrides.skiing: sun`
+
+  - area: bedtime_reading
+    days: [mon, tue, wed, thu, fri, sat, sun]
+    outside_block: true
+
+# Day modes this rotation sets by default. plan-week flags override per week
+# (e.g. --homework-heavy tue --skiing sun).
+day_modes:
+  fri: free
+
+# Seasonal switches the planner applies by date (or --season).
+seasons:
+  winter:
+    from: 2026-12-01
+    to: 2027-03-15
+    baseball: { variant: indoor }
+    skiing: { one_weekend_day: true }   # parent picks the day via override
+
+# What plan-week validates before writing the plan (fails on `error`, warns on `warn`):
+validate:
+  budget: error            # sum of in-block minutes per weekday <= budget
+  pairing: warn            # non-anchor items on a day = one self + one parent
+  items_per_day: error     # non-anchor in-block items <= config.items_per_day

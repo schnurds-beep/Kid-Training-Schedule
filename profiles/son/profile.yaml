@@ -1,0 +1,70 @@
+# Who this kid is. Hand-edited. Scheduling lives in schedules/son/rotation.yaml,
+# difficulty state in profiles/son/difficulty.yaml.
+id: son                       # == folder name; used in every CLI command
+name: "<son's name>"
+age: 9
+grade: 4
+status: active                # active | draft (draft profiles plan but warn)
+
+interests:                    # fed to every generator as topic seeds
+  - baseball
+  - New York Yankees
+  - baseball card collection
+  - pitching
+
+reading:                      # inputs the reading generator needs beyond difficulty
+  likes: [sports stories, nonfiction about players, how-things-work]
+  avoid: []
+  bedtime_books_current: []   # optional; for the bedtime row and review notes
+
+constraints:
+  weekday:
+    home_at: "17:45"
+    bed_at: "20:30"
+    block: { start: "18:45", end: "19:15" }
+    tablet: { start: "19:15", end: "19:50" }
+    bedtime_reading_from: "19:50"
+  budget_minutes: 30          # may be lower than config/rules.yaml, never higher
+  weekend:
+    fixed:
+      - { day: sat, what: "piano lesson", external: true }
+    seasonal:
+      - { season: winter, what: "skiing one weekend day", day: flexible, blocks_block: true }
+
+# Areas this kid practices. Days are NOT here (see rotation.yaml) — this is the
+# "what and how", rotation is the "when".
+areas:
+  handwriting:
+    minutes: 5
+    mode: self                # self = kid runs it alone; parent = needs a parent in the room
+    content_type: handwriting # generator that feeds it; omit for areas with no generated content
+    notes: "Prompt-driven. Prompts about things he likes."
+  piano:
+    minutes: 10
+    mode: self
+    notes: "Saturday lesson is external, not counted against the block."
+  cello:
+    minutes: 10
+    mode: self
+    notes: "Dislikes it. Needs easy wins: 3-step card, stop at the timer even if mid-piece."
+  math:
+    minutes: 10
+    mode: parent
+    content_type: math
+    notes: "Strong. One slot/week keeps it warm."
+  reading:
+    minutes: 10
+    mode: parent
+    content_type: reading
+    notes: "Weakest tested area. Passage + 4-6 questions, test format. Two sessions/week."
+  baseball:
+    minutes: 10
+    weekend_minutes: 40
+    mode: parent
+    content_type: baseball
+    notes: "Hitting / throwing / fielding at home. Indoor variants in winter."
+  bedtime_reading:
+    minutes: 15
+    mode: self
+    outside_block: true       # not counted against the budget; appears as its own chart row
+    notes: "High-interest books only."

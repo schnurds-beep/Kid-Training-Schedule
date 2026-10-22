@@ -1,0 +1,21 @@
+# One file per week per kid; one prompt per scheduled day. Plan items reference `handwriting/2026-W44#mon`.
+id: son/handwriting/2026-W44
+kid: son
+type: handwriting
+week: 2026-W44
+generator: { name: handwriting, version: "0.1.0", backend: stub }
+generated_at: 2026-10-25T20:12:00
+status: generated
+params:
+  difficulty_version: 1
+  sentences: 3
+  focus: "letter size and spacing"
+  interests_used: [baseball, New York Yankees, baseball card collection]
+  avoid_prompts_used_in: [2026-W43]       # history check so prompts don't repeat
+prompts:
+  mon: "Describe your favorite baseball card. What makes it special?"
+  tue: "If you could trade one Yankee to another team, who and why?"
+  wed: "Write the steps to throw a good pitch."
+  thu: "What would you say to a rookie before his first game?"
+  sat: "Design a new baseball card for yourself. What stats would it show?"
+  sun: "Tell about the best catch you have ever made or seen."

@@ -1,0 +1,20 @@
+# Minimal rotation so the daughter gets her own chart from week one.
+# Replace once her activities are known.
+kid: daughter
+version: 1
+effective_from: 2026-10-26
+rows:
+  - area: handwriting
+    days: [mon, tue, wed, thu, sat, sun]
+    role: anchor
+  - area: reading
+    days: [tue, thu]
+  - area: bedtime_reading
+    days: [mon, tue, wed, thu, fri, sat, sun]
+    outside_block: true
+day_modes:
+  fri: free
+validate:
+  budget: error
+  pairing: warn
+  items_per_day: error

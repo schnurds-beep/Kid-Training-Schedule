@@ -1,0 +1,54 @@
+# House rules. These are enforced by the planner / recorder, not just documented.
+# Per-kid overrides live in profiles/<kid>/profile.yaml under `constraints`.
+version: 1
+
+block:
+  weekday_budget_minutes: 30        # hard cap; plan-week refuses to emit a day over this
+  items_per_day: 2                  # plus the daily anchor (handwriting); see `anchor`
+  anchor: handwriting               # the one item that appears every scheduled day
+  pairing: one_self_one_parent      # the two non-anchor items must be one `self` + one `parent`
+                                    # so one parent can alternate between kids. Violations = warning.
+  carry_over: never                 # a missed day is gone; record marks it not-done, planner ignores it
+  done_means: timer                 # `done` is "the timer ran", independent of score
+
+day_modes:
+  normal:          { anchor: true, items: 2 }
+  homework_heavy:  { anchor: true, items: 1 }       # block shrinks to handwriting + one item
+  free:            { anchor: false, items: 0 }      # Friday default; kid may choose anything or nothing
+  off:             { anchor: false, items: 0 }      # sick, travel, etc.
+
+weekly_defaults:
+  fri: free
+
+trial:
+  length_weeks: 2
+  review_with_kid: true
+  # An area is a rotate-out candidate when it was scheduled >= min_scheduled times
+  # and completed <= empty_row_threshold of them. Data, not lectures.
+  rotate_out:
+    min_scheduled: 3
+    empty_row_threshold: 0.5
+
+sunday_prep:
+  budget_minutes: 15
+  steps:
+    - plan-week
+    - generate (all types scheduled this week)
+    - build-packet
+    - "write/print handwriting prompts"
+    - "restock materials"
+
+# Difficulty adaptation defaults. Each generator may override `applies_to` fields.
+adaptation:
+  scored:                           # reading, math — anything with correct/total
+    step_up_at:   0.83              # >= 5/6
+    step_down_at: 0.50              # <= 3/6
+    step_size: 1                    # one "level" unit as defined per area in difficulty.yaml
+    min_sessions_before_change: 1
+    weight_missed_type:
+      after_misses: 2               # miss the same question type twice (across sessions) ...
+      weight: 2                     # ... and it gets double weight in the next question mix
+      decay_after_clean_sessions: 2 # back to weight 1 after two sessions without missing it
+  timed:                            # cello, piano, handwriting, baseball — done/not-done only
+    step_up_after_done_streak: 4    # four completions in a row → next stage
+    step_down_after_skips: 3        # three skips in a row → easier / shorter
