@@ -67,7 +67,7 @@ def main():
     ap.add_argument("--week", help="ISO week like 2026-W45; omit for a blank 'Week of ___' line")
     ap.add_argument("--out", help="output path (default output/<kid>/chart[-<week>].html)")
     ap.add_argument("--blank", action="store_true",
-                    help="discussion copy: no dates or minutes, a box in every cell, Friday not free")
+                    help="discussion copy: no dates, minutes or boxes; empty grid to fill in by hand")
     args = ap.parse_args()
 
     profile = load(ROOT / "profiles" / args.kid / "profile.yaml")
@@ -88,7 +88,7 @@ def main():
     if args.blank:
         for row in rows:
             row["minutes"] = None
-            row["cells"] = {d: {"minutes": None, "external": False, "label": ""} for d in DAYS}
+            row["cells"] = {}          # empty cells: days get decided on paper
 
     env = Environment(loader=FileSystemLoader(ROOT / "render" / "templates"), autoescape=select_autoescape(["html"]))
     html = env.get_template("chart.html.j2").render(
