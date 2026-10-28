@@ -1,7 +1,7 @@
 # Rotation for a first grader who is not reading yet: decoding practice every day,
-# math once a week, letters as the daily anchor. Replace once her phonics sequence is known.
+# math three days, gymnastics four, letters as the daily anchor. Replace once her phonics sequence is known.
 kid: daughter
-version: 2
+version: 3
 effective_from: 2026-10-26
 rows:
   - area: handwriting
@@ -10,7 +10,9 @@ rows:
   - area: reading_foundations
     days: [mon, tue, wed, thu, sat, sun]
   - area: math
-    days: [sat]
+    days: [tue, thu, sat]
+  - area: gymnastics
+    days: [mon, wed, sat, sun]
   - area: bedtime_reading
     days: [mon, tue, wed, thu, fri, sat, sun]
     outside_block: true

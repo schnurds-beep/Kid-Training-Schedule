@@ -1,7 +1,7 @@
 # First grader, not reading yet. `status: draft` means plan-week still produces a chart
 # but warns on every TBD field.
 id: daughter
-name: "<daughter's name>"
+name: Cencia
 age: 6
 grade: 1
 status: draft
@@ -11,7 +11,7 @@ interests: []                 # TBD — fill in before generating any content
 constraints:
   weekday:
     block: { start: "18:45", end: "19:15" }   # same block as her brother
-  budget_minutes: 20
+  budget_minutes: 25          # letters 5 + reading 10 + one more 10-min item
 
 chart:
   style: icons                # she can't read row labels yet: big icon, small word
@@ -42,6 +42,13 @@ areas:
     mode: parent
     content_type: math
     notes: "Eureka Math² shape: fluency + a few exit-ticket problems. Grown-up reads everything aloud."
+  gymnastics:
+    label: Gymnastics
+    icon: "🤸"
+    minutes: 10
+    mode: self
+    content_type: gymnastics
+    notes: "Skills card at home: stretches, bridges, forward rolls, cartwheel steps, balance holds. Grown-up nearby, not running it."
   bedtime_reading:
     label: Story time
     icon: "📖"
