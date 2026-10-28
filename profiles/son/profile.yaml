@@ -1,7 +1,7 @@
 # Who this kid is. Hand-edited. Scheduling lives in schedules/son/rotation.yaml,
 # difficulty state in profiles/son/difficulty.yaml.
 id: son                       # == folder name; used in every CLI command
-name: "<son's name>"
+name: TJ
 age: 9
 grade: 3
 status: active                # active | draft (draft profiles plan but warn)

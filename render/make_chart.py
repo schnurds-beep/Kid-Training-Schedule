@@ -97,7 +97,8 @@ def main():
     )
 
     out = pathlib.Path(args.out) if args.out else ROOT / "output" / args.kid / (
-        "chart-blank.html" if args.blank else (f"chart-{args.week}.html" if args.week else "chart.html"))
+        (f"chart-blank-{args.week}.html" if args.week else "chart-blank.html") if args.blank
+        else (f"chart-{args.week}.html" if args.week else "chart.html"))
     out.parent.mkdir(parents=True, exist_ok=True)
     out.write_text(html)
     print(out.relative_to(ROOT))
