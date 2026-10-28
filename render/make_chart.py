@@ -66,6 +66,8 @@ def main():
     ap.add_argument("kid")
     ap.add_argument("--week", help="ISO week like 2026-W45; omit for a blank 'Week of ___' line")
     ap.add_argument("--out", help="output path (default output/<kid>/chart[-<week>].html)")
+    ap.add_argument("--blank", action="store_true",
+                    help="discussion copy: no dates or minutes, a box in every cell, Friday not free")
     args = ap.parse_args()
 
     profile = load(ROOT / "profiles" / args.kid / "profile.yaml")
@@ -79,17 +81,23 @@ def main():
         week = {"id": args.week, "starts": mon.strftime("%b %-d"), "ends": sun.strftime("%b %-d")}
         dates = {d: (mon + dt.timedelta(days=i)).strftime("%-m/%-d") for i, d in enumerate(DAYS)}
 
-    modes = rotation.get("day_modes", {})
+    modes = {} if args.blank else rotation.get("day_modes", {})
     days = [{"key": d, "label": DAY_LABELS[d], "date": dates.get(d), "mode": modes.get(d, "normal")} for d in DAYS]
+
+    rows = build_rows(profile, rotation)
+    if args.blank:
+        for row in rows:
+            row["minutes"] = None
+            row["cells"] = {d: {"minutes": None, "external": False, "label": ""} for d in DAYS}
 
     env = Environment(loader=FileSystemLoader(ROOT / "render" / "templates"), autoescape=select_autoescape(["html"]))
     html = env.get_template("chart.html.j2").render(
-        kid=profile, week=week, days=days, rows=build_rows(profile, rotation),
+        kid=profile, week=week, days=days, rows=rows, blank=args.blank,
         rotation_version=rotation.get("version", "?"),
     )
 
     out = pathlib.Path(args.out) if args.out else ROOT / "output" / args.kid / (
-        f"chart-{args.week}.html" if args.week else "chart.html")
+        "chart-blank.html" if args.blank else (f"chart-{args.week}.html" if args.week else "chart.html"))
     out.parent.mkdir(parents=True, exist_ok=True)
     out.write_text(html)
     print(out.relative_to(ROOT))

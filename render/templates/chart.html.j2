@@ -59,7 +59,7 @@
     <tr>
       <td class="area">
         <span class="icon">{{ row.icon }}</span><span class="label">{{ row.label }}
-          <span class="mins">{{ row.minutes }} min{% if row.outside_block %} · after the block{% endif %}</span></span>
+          <span class="mins">{% if row.minutes %}{{ row.minutes }} min{% else %}<span style="display:inline-block;min-width:0.5in;border-bottom:1.5px solid #333">&nbsp;</span> min{% endif %}{% if row.outside_block %} · after the block{% endif %}</span></span>
       </td>
       {% for d in days %}
         {% set cell = row.cells.get(d.key) %}
@@ -75,7 +75,7 @@
 </table>
 
 <footer>
-  <span class="rule">Done = the timer ran. Missed days don't carry over. Friday is free choice or nothing.</span>
+  <span class="rule">{% if blank %}Circle the days we'll do each one. Write the minutes.{% else %}Done = the timer ran. Missed days don't carry over. Friday is free choice or nothing.{% endif %}</span>
   <span>rotation v{{ rotation_version }}</span>
 </footer>
 </body>
