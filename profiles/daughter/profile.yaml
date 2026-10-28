@@ -1,29 +1,51 @@
-# Placeholder until age/activities are known. `status: draft` means plan-week still
-# produces a chart (so she isn't left out) but prints a warning on every TBD field.
+# First grader, not reading yet. `status: draft` means plan-week still produces a chart
+# but warns on every TBD field.
 id: daughter
 name: "<daughter's name>"
-age: null                     # TBD
-grade: null                   # TBD
+age: 6
+grade: 1
 status: draft
 
 interests: []                 # TBD — fill in before generating any content
 
 constraints:
   weekday:
-    block: { start: "18:45", end: "19:15" }   # same block as son; shorten if younger
-  budget_minutes: 20          # TBD — conservative default until age is known
+    block: { start: "18:45", end: "19:15" }   # same block as her brother
+  budget_minutes: 20
+
+chart:
+  style: icons                # she can't read row labels yet: big icon, small word
+
+curriculum:
+  math: { program: eureka_math2, grade: 1, module: 1 }
+  reading: { program: null, grade: 1, stage: null }   # TBD: school phonics program + where she is
 
 areas:
   handwriting:
+    label: Letters
+    icon: "✏️"
     minutes: 5
     mode: self
     content_type: handwriting
-  reading:
+    notes: "Letter formation, using the letters/words from that day's reading list."
+  reading_foundations:
+    label: Reading
+    icon: "🔤"
     minutes: 10
     mode: parent
-    content_type: reading
-    notes: "TBD: read-aloud vs. passage+questions depends on age."
+    content_type: reading_foundations
+    notes: "Sound warm-up, blending 6-8 words in one pattern, 3-4 sight words, one decodable sentence."
+  math:
+    label: Math
+    icon: "🔢"
+    minutes: 10
+    mode: parent
+    content_type: math
+    notes: "Eureka Math² shape: fluency + a few exit-ticket problems. Grown-up reads everything aloud."
   bedtime_reading:
+    label: Story time
+    icon: "📖"
     minutes: 15
     mode: self
     outside_block: true
+    notes: "Grown-up reads to her. Not a decoding session."

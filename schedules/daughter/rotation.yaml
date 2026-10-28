@@ -1,14 +1,16 @@
-# Minimal rotation so the daughter gets her own chart from week one.
-# Replace once her activities are known.
+# Rotation for a first grader who is not reading yet: decoding practice every day,
+# math once a week, letters as the daily anchor. Replace once her phonics sequence is known.
 kid: daughter
-version: 1
+version: 2
 effective_from: 2026-10-26
 rows:
   - area: handwriting
     days: [mon, tue, wed, thu, sat, sun]
     role: anchor
-  - area: reading
-    days: [tue, thu]
+  - area: reading_foundations
+    days: [mon, tue, wed, thu, sat, sun]
+  - area: math
+    days: [sat]
   - area: bedtime_reading
     days: [mon, tue, wed, thu, fri, sat, sun]
     outside_block: true

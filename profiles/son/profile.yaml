@@ -3,7 +3,7 @@
 id: son                       # == folder name; used in every CLI command
 name: "<son's name>"
 age: 9
-grade: 4
+grade: 3
 status: active                # active | draft (draft profiles plan but warn)
 
 interests:                    # fed to every generator as topic seeds
@@ -33,37 +33,48 @@ constraints:
 
 # Areas this kid practices. Days are NOT here (see rotation.yaml) — this is the
 # "what and how", rotation is the "when".
+chart:
+  style: words
+
 areas:
   handwriting:
+    icon: "✏️"
     minutes: 5
     mode: self                # self = kid runs it alone; parent = needs a parent in the room
     content_type: handwriting # generator that feeds it; omit for areas with no generated content
     notes: "Prompt-driven. Prompts about things he likes."
   piano:
+    icon: "🎹"
     minutes: 10
     mode: self
     notes: "Saturday lesson is external, not counted against the block."
   cello:
+    icon: "🎻"
     minutes: 10
     mode: self
     notes: "Dislikes it. Needs easy wins: 3-step card, stop at the timer even if mid-piece."
   math:
+    icon: "🔢"
     minutes: 10
     mode: parent
     content_type: math
     notes: "Strong. One slot/week keeps it warm."
   reading:
+    icon: "📄"
     minutes: 10
     mode: parent
     content_type: reading
     notes: "Weakest tested area. Passage + 4-6 questions, test format. Two sessions/week."
   baseball:
+    icon: "⚾"
     minutes: 10
     weekend_minutes: 40
     mode: parent
     content_type: baseball
     notes: "Hitting / throwing / fielding at home. Indoor variants in winter."
   bedtime_reading:
+    label: Bedtime reading
+    icon: "📖"
     minutes: 15
     mode: self
     outside_block: true       # not counted against the budget; appears as its own chart row

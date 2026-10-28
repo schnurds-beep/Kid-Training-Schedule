@@ -1,63 +1,82 @@
-{#- Draft chart template. Context: kid (profile), plan (weekly plan), rows (ordered area rows) -#}
+{#- Weekly check-off chart. Letter landscape, one page.
+    Context: kid (profile dict), week (dict or None), rows (list), days (list of {key,label,date,mode}) -#}
 <!doctype html>
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<title>{{ kid.name }} — Week {{ plan.week }}</title>
+<title>Practice chart — {{ kid.id }}</title>
 <style>
-  @page { size: letter landscape; margin: 0.5in; }
-  body { font-family: system-ui, sans-serif; font-size: 13pt; color: #111; }
-  h1 { font-size: 18pt; margin: 0 0 4pt; }
-  .sub { color: #555; font-size: 10pt; margin-bottom: 10pt; }
-  table { width: 100%; border-collapse: collapse; }
-  th, td { border: 1px solid #333; padding: 6pt 4pt; text-align: center; height: 34pt; }
-  th.area, td.area { text-align: left; width: 26%; }
-  th.day.free { background: #f3f3f3; }
-  .box { display: inline-block; width: 18pt; height: 18pt; border: 2px solid #111; border-radius: 3pt; }
-  .min { display: block; font-size: 8pt; color: #666; margin-top: 2pt; }
-  .note { font-size: 9pt; color: #444; }
-  tr.divider td { border: 0; height: 8pt; }
-  .foot { margin-top: 10pt; font-size: 9pt; color: #555; display: flex; justify-content: space-between; }
+  @page { size: letter landscape; margin: 0.45in; }
+  * { box-sizing: border-box; }
+  body { font-family: system-ui, -apple-system, "Segoe UI", sans-serif; color: #111; margin: 0; padding: 0.3in; background: #fff; }
+  header { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 8pt; }
+  h1 { font-size: 20pt; margin: 0; }
+  .week { font-size: 12pt; color: #444; }
+  .week .fill { display: inline-block; min-width: 2.2in; border-bottom: 1.5px solid #333; }
+  table { width: 100%; border-collapse: collapse; table-layout: fixed; }
+  th, td { border: 1.5px solid #333; text-align: center; vertical-align: middle; }
+  th.area { width: 22%; }
+  th.day { padding: 5pt 2pt; font-size: 12pt; }
+  th.day small { display: block; font-weight: normal; color: #666; font-size: 8.5pt; }
+  th.day.free { background: #f1f1f1; }
+  th.day.free small { color: #333; font-weight: 600; }
+  td.area { text-align: left; padding: 4pt 8pt; }
+  td { height: {{ '84pt' if rows|length <= 5 else ('56pt' if rows|length <= 7 else '44pt') }}; }
+  .icon { font-size: {{ '34pt' if kid.chart.style == 'icons' else '15pt' }}; vertical-align: middle; margin-right: 8pt; }
+  .label { font-size: {{ '12pt' if kid.chart.style == 'icons' else '13pt' }}; font-weight: 600; display: inline-block; vertical-align: middle; }
+  .mins { display: block; font-size: 9pt; color: #555; font-weight: normal; }
+  .box { display: inline-block; width: {{ '34pt' if kid.chart.style == 'icons' else '24pt' }}; height: {{ '34pt' if kid.chart.style == 'icons' else '24pt' }}; border: 2px solid #111; border-radius: 4pt; }
+  .cellmins { display: block; font-size: 8pt; color: #555; margin-top: 2pt; }
+  .note { font-size: 9pt; color: #333; line-height: 1.2; padding: 0 2pt; }
+  td.free { background: #f7f7f7; }
+  tr.divider td { border-left: 0; border-right: 0; height: 7pt; background: #fff; }
+  footer { display: flex; justify-content: space-between; margin-top: 8pt; font-size: 9pt; color: #555; }
+  footer .rule { color: #333; }
 </style>
 </head>
 <body>
-<h1>{{ kid.name }} — practice chart</h1>
-<div class="sub">Week {{ plan.week }} · {{ plan.starts }} to {{ plan.ends }} · done = the timer ran, that's it</div>
+<header>
+  <h1>{% if kid.name and not kid.name.startswith('<') %}{{ kid.name }}'s{% else %}<span class="fill" style="min-width:1.8in;display:inline-block;border-bottom:2px solid #333">&nbsp;</span>'s{% endif %} practice chart</h1>
+  <div class="week">Week of
+    {% if week %}{{ week.starts }} to {{ week.ends }}{% else %}<span class="fill"></span>{% endif %}
+  </div>
+</header>
 
 <table>
   <thead>
     <tr>
       <th class="area"></th>
-      {% for d in ["mon","tue","wed","thu","fri","sat","sun"] %}
-        <th class="day {{ plan.days[d].mode }}">{{ d|capitalize }}
-          {% if plan.days[d].mode == "free" %}<span class="min">free choice</span>{% endif %}
-        </th>
+      {% for d in days %}
+      <th class="day {{ d.mode }}">{{ d.label }}<small>{% if d.mode == 'free' %}free choice{% elif d.date %}{{ d.date }}{% else %}&nbsp;{% endif %}</small></th>
       {% endfor %}
     </tr>
   </thead>
   <tbody>
     {% for row in rows %}
-      {% if row.outside_block and not loop.first %}<tr class="divider"><td colspan="8"></td></tr>{% endif %}
-      <tr>
-        <td class="area">{{ row.label or row.area|replace("_"," ")|capitalize }}
-          {% if row.minutes %}<span class="min">{{ row.minutes }} min</span>{% endif %}</td>
-        {% for d in ["mon","tue","wed","thu","fri","sat","sun"] %}
-          <td>
-            {% set item = row.items.get(d) %}
-            {% if item and item.external %}<span class="note">{{ item.label }}</span>
-            {% elif item %}<span class="box"></span>
-              {% if item.content_title %}<span class="min">{{ item.content_title }}</span>{% endif %}
-            {% endif %}
-          </td>
-        {% endfor %}
-      </tr>
+    {% if row.outside_block and not loop.first and not rows[loop.index0 - 1].outside_block %}
+    <tr class="divider"><td colspan="{{ days|length + 1 }}"></td></tr>
+    {% endif %}
+    <tr>
+      <td class="area">
+        <span class="icon">{{ row.icon }}</span><span class="label">{{ row.label }}
+          <span class="mins">{{ row.minutes }} min{% if row.outside_block %} · after the block{% endif %}</span></span>
+      </td>
+      {% for d in days %}
+        {% set cell = row.cells.get(d.key) %}
+        <td class="{{ 'free' if d.mode == 'free' and not cell else '' }}">
+          {% if cell and cell.external %}<span class="note">{{ cell.label }}</span>
+          {% elif cell %}<span class="box"></span>{% if cell.minutes and cell.minutes != row.minutes %}<span class="cellmins">{{ cell.minutes }} min</span>{% endif %}
+          {% endif %}
+        </td>
+      {% endfor %}
+    </tr>
     {% endfor %}
   </tbody>
 </table>
 
-<div class="foot">
-  <span>rotation v{{ plan.rotation_version }} · generated {{ plan.generated_at[:10] }}</span>
-  <span>notes for review: ____________________________________________</span>
-</div>
+<footer>
+  <span class="rule">Done = the timer ran. Missed days don't carry over. Friday is free choice or nothing.</span>
+  <span>rotation v{{ rotation_version }}</span>
+</footer>
 </body>
 </html>
